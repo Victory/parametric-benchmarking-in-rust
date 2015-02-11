@@ -15,14 +15,12 @@ pub fn sleep_ns (ns: i64) {
 
 #[test]
 fn it_works() {
-    sleep_ns();
+    sleep_ns(1);
 }
 
 #[bench]
 fn bench_foo (b: &mut test::Bencher) {
     b.iter(|| {
-        foo();
+        sleep_ns(1);
     });
-
-    //pritnln!("nanoseconds {}", b.ns_per_iter());
 }
