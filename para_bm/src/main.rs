@@ -21,15 +21,20 @@ fn my_bench<F> (f: F) where F: Fn() {
     let ns = d.num_nanoseconds().unwrap();
     println!("num nano seconds first run {}", ns);
 
-
+    let mut sum = 0;
     // iterate to get more cache hits, etc...
     for _ in 0 .. 10 {
         d = Duration::span(|| {
             f();
         });
         let ns = d.num_nanoseconds().unwrap();
+        sum = sum + ns;
         println!("num nano seconds {}", ns);
+
     }
+
+    let avg = (sum as f64) / 10.0;
+    println!("average run {}", avg);
 }
 
 fn main () {
