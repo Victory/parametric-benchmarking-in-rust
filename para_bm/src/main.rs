@@ -1,6 +1,8 @@
 extern crate para_bm;
 
 use std::time::Duration;
+use std::thread::Thread;
+
 
 use para_bm::{sleep_ns};
 
@@ -29,21 +31,23 @@ fn my_bench<F> (f: F) where F: Fn() {
         });
         let ns = d.num_nanoseconds().unwrap();
         sum = sum + ns;
-        println!("num nano seconds {}", ns);
-
     }
 
     let avg = (sum as f64) / 10.0;
-    println!("average run {}", avg);
+    println!("average after first run {}", avg);
 }
 
 fn main () {
 
 
+    println!("Running Threaded slow");
     my_bench(||{
-        slow()
+        Thread::scoped(move || {
+            slow();
+        });
     });
 
+    println!("Running Non-Threaded fast");
     my_bench(||{
         fast()
     });
