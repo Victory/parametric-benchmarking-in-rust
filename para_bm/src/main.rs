@@ -11,7 +11,7 @@ fn fast () {
 }
 
 fn slow () {
-    sleep_ns(1000000);
+    sleep_ns(1000000000);
 }
 
 fn my_bench<F> (f: F) where F: Fn() {
@@ -39,17 +39,22 @@ fn my_bench<F> (f: F) where F: Fn() {
 
 fn main () {
 
-
     println!("Running Threaded slow");
     my_bench(||{
-        Thread::scoped(move || {
-            slow();
-        });
+        let threads_holder = (0 .. 3).map(|ii| {
+            Thread::scoped(move || {
+                slow();
+                println!("Done slow thread {}", ii);
+            })
+        }).collect::<Vec<_>>();
+        println!("done spawning");
     });
 
+    /*
     println!("Running Non-Threaded fast");
     my_bench(||{
-        fast()
+        fast();
     });
+    */
 
 }
