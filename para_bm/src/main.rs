@@ -44,17 +44,15 @@ fn main () {
         let threads_holder = (0 .. 3).map(|ii| {
             Thread::scoped(move || {
                 slow();
-                println!("Done slow thread {}", ii);
             })
         }).collect::<Vec<_>>();
-        println!("done spawning");
     });
+    println!("Done threaded slow");
 
-    /*
-    println!("Running Non-Threaded fast");
+    println!("Running serial slow");
     my_bench(||{
-        fast();
+        let serial_holder = (0 .. 3).map(|ii| {
+            slow();
+        }).collect::<Vec<_>>();
     });
-    */
-
 }
