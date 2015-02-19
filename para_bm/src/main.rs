@@ -47,14 +47,15 @@ fn main () {
 
 
     let mut max_ns = 10000000.0;
-    let mut min_ns = 0.0;
-    //let mut half_ns;
-    let mut qurt_ns;
-    let mut num_ns = (max_ns + min_ns) / 2.0;
+    let mut min_ns = 1.0;
 
-    for power in 0 .. 30 {
+    let num_steps = 100;
+    let step_size = (max_ns - min_ns) / num_steps as f64;
+    let mut num_ns = min_ns;
+
+    for power in 0 .. num_steps {
         println!("Size.....: {}", num_ns as i64);
-        
+        num_ns += step_size;
 
         let t_avg = my_bench(||{
             let threads_holder = (0 .. 3).map(|_| {
@@ -63,39 +64,14 @@ fn main () {
                 })
             }).collect::<Vec<_>>();
         });
-        //println!("Runtime thread....: {}", t_avg);
+        println!("Runtime thread....: {}", t_avg);
         
         let s_avg = my_bench(||{
             let serial_holder = (0 .. 3).map(|_| {
                 sleep_ns(num_ns as i64);
             }).collect::<Vec<_>>();
         });
-        //println!("Runtime serial....: {}", s_avg);
+        println!("Runtime serial....: {}", s_avg);
         
-        println!("s - t .....: {}", s_avg - t_avg);
-        
-
-
-        if t_avg > s_avg {
-            qurt_ns = (max_ns + num_ns) / 2.0;
-            min_ns = num_ns;
-            num_ns = qurt_ns;
-        } else {
-            qurt_ns = (min_ns + num_ns) / 2.0;
-            max_ns = num_ns;
-            num_ns = qurt_ns;
-        }
-
-        println!("qurt.....: {}", qurt_ns as i64);
-        println!("jump.....: {}", max_ns - min_ns);
-
-        println!("------------------------------------");
-
-        if max_ns - min_ns < 1.0 {
-
-            break;
-        }
-
-
     }
 }
