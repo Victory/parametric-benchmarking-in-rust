@@ -67,9 +67,9 @@ fn main () {
         println!("Runtime thread....: {}", t_avg);
         
         let s_avg = my_bench(||{
-            let serial_holder = (0 .. 3).map(|_| {
-                sleep_ns(num_ns as i64);
-            }).collect::<Vec<_>>();
+            sleep_ns(num_ns as i64);
+            sleep_ns(num_ns as i64);
+            sleep_ns(num_ns as i64);
         });
         println!("Runtime serial....: {}", s_avg);
 
