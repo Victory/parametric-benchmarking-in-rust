@@ -1,2 +1,4 @@
 # parametric-benchmarking-in-rust
-Use rusts benchmarking tool to choose between competing algoriths depending on input size
+
+Use rusts timing tool to choose between competing algorithms depending
+on input size.
