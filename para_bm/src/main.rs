@@ -24,7 +24,6 @@ fn my_bench<F> (f: F) -> f64 where F: Fn() {
         f();
     });
     let ns = d.num_nanoseconds().unwrap();
-    //println!("num nano seconds first run {}", ns);
 
     let mut sum = 0;
     // iterate to get more cache hits, etc...
@@ -38,7 +37,6 @@ fn my_bench<F> (f: F) -> f64 where F: Fn() {
     }
 
     let avg = (sum as f64) / iters;
-    //println!("average after first run {}", avg);
 
     return avg;
 }
@@ -47,9 +45,9 @@ fn main () {
 
 
     let mut max_ns = 10000000.0;
-    let mut min_ns = 1.0;
+    let mut min_ns = 1000.0;
 
-    let num_steps = 500;
+    let num_steps = 5000;
     let step_size = (max_ns - min_ns) / num_steps as f64;
     let mut num_ns = min_ns;
 
